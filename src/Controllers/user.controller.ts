@@ -59,7 +59,7 @@ class UserController {
         if (comparePassword) {
 
           const token = generateToken(user._id);
-          const cookies = res.cookie("jwt", token, {
+          res.cookie("jwt", token, {
             maxAge: 2 * 24 * 60 * 60 * 1000,
             httpOnly: true,
           });
@@ -68,11 +68,15 @@ class UserController {
             user,
             // 'cookies':cookies,
             'token': token
-          });
+          }.user);
           console.log(user);
         } else {
-          res.status(401).json({ errors: "Authentication failed" });
+          res.status(401).send({ message: "Authentication failed" });
+          
         }
+      }else {
+        res.status(401).send({ message: "Authentication failed" });
+          
       }
 
     } catch (error) {

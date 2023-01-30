@@ -23,10 +23,10 @@ router.get('/posts', PostController.getFilteredPost)
 router.get('/posts/:id', PostController.getAPost)
 
 //update a post
-router.put('/post/:id', authenticate, PostController.updatePost)
+router.put('/postt/:id', authenticate, PostController.updatePost)
 
 //delete a post
-router.delete('post/:id', authenticate, PostController.deletePost)
+router.delete('/postz/:id',authenticate,  PostController.deletePost)
 
 
 //user routes

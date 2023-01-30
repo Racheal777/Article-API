@@ -17,7 +17,7 @@ class postController {
             author: req.body.author,
             description: req.body.description,
             published: req.body.published,
-            user_id: req.params.id
+            user: req.params.id
 
         }
         const { error, value } = PostSchema.validate(req.body);
@@ -29,7 +29,7 @@ class postController {
             
             //fetching the user
             const fetchUser = await User.findById(req.params.id)
-            // console.log("fetch", fetchUser);
+           
     
             //pushing the posts to the user
             fetchUser?.posts.push(post)
@@ -54,12 +54,13 @@ class postController {
     //desc for descending order
     getPosts = async (req: Request, res: Response) => {
 
-        const { page = 1, limit = 4 }: any = req.query
+        const { page = 1, limit = 9 }: any = req.query
 
         const posts = await Post.find()
             .limit(limit * 1)
             .skip((page - 1) * limit)
-            .sort('desc')
+            .sort({ _id: -1})
+            
             .exec()
 
         const count = await Post.countDocuments()
@@ -86,8 +87,14 @@ class postController {
     getAPost = async (req: Request, res: Response) => {
         const id = req.params.id
         const post = await postServices.getPost(id)
-        console.log('bbh', id)
-        res.json({post}.post)
+        const user = await Post.findById(id).populate("user");
+        const fetchUser = await User.findById(user?.user)
+        res.json({
+            post: post,
+            user: fetchUser?._id
+        })
+       
+        console.log('user',fetchUser)
     }
 
     //users posts
