@@ -54,7 +54,7 @@ class postController {
     //desc for descending order
     getPosts = async (req: Request, res: Response) => {
 
-        const { page = 1, limit = 9 }: any = req.query
+        const { page = 1, limit = 20 }: any = req.query
 
         const posts = await Post.find()
             .limit(limit * 1)
